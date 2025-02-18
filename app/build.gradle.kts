@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.android.hilt)
     alias(libs.plugins.android.ksp)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 
@@ -71,6 +72,7 @@ android {
 dependencies {
     val composeBom = platform(libs.androidx.compose.bom)
 
+    //default
     implementation(libs.androidx.material3)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
@@ -79,10 +81,18 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
+    //compose
     implementation(composeBom)
+    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.compose.navigation)
     implementation(libs.androidx.foundation)
     androidTestImplementation(composeBom)
 
+    //retrofit
+    implementation (libs.retrofit)
+    implementation (libs.converter.gson)
+    
+    //hilt
     implementation(libs.hilt)
     implementation(libs.hiltNavigationCompose)
     ksp(libs.hiltCompiler)
