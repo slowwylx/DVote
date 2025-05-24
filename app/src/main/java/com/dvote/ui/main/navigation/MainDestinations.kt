@@ -4,10 +4,7 @@ import kotlinx.serialization.Serializable
 
 sealed interface MainDestinations {
     @Serializable
-    data object SurveysList : MainDestinations
-
-    @Serializable
-    data object Settings : MainDestinations
+    data object Home : MainDestinations
 
     @Serializable
     data object Survey : MainDestinations
@@ -16,18 +13,6 @@ sealed interface MainDestinations {
     data object CreateSurvey : MainDestinations
 
     @Serializable
-    data object SurveyHistory : MainDestinations
-
-    @Serializable
-    data object Notifications : MainDestinations
-
-    @Serializable
     data object Profile : MainDestinations
-
-    @Serializable
-    data object ParticipatedSurveys : MainDestinations
-
-    @Serializable
-    data object CreatedSurveys : MainDestinations
 
 }

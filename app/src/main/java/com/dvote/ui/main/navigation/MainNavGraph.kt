@@ -1,53 +1,42 @@
 package com.dvote.ui.main.navigation
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.pager.HorizontalPager
-import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.PrimaryTabRow
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.dvote.R
+import com.dvote.ui.main.create_survey.CreateSurveyScreen
+import com.dvote.ui.main.home.HomeScreen
 import com.dvote.ui.main.navigation.toolbar.ToolbarItemData
 import com.dvote.ui.main.navigation.toolbar.ToolbarViewModel
-import com.dvote.ui.main.notifications.NotificationScreen
-import com.dvote.ui.main.surveys.SurveysListScreen
-import kotlinx.coroutines.launch
+import com.dvote.ui.main.profile.ProfileScreen
+import com.dvote.ui.main.survey.SurveyViewScreen
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -60,24 +49,19 @@ fun MainNavGraph(
 
     val toolbarState = remember {
         mutableStateOf(
-            toolbarItems[MainDestinations.SurveysList] ?: ToolbarItemData()
+            toolbarItems[MainDestinations.Home] ?: ToolbarItemData()
         )
     }
 
-    val tabs = TabDestinations.entries
-    val startDestination = TabDestinations.SURVEYS_LIST
-    var selectedDestination by rememberSaveable { mutableIntStateOf(startDestination.ordinal) }
-
-    val pagerState = rememberPagerState(
-        initialPage = selectedDestination,
-        pageCount = { tabs.size }
-    )
-    val coroutineScope = rememberCoroutineScope()
+    val fabState = remember {
+        mutableStateOf(false)
+    }
 
     LaunchedEffect(navController) {
         navController.currentBackStackEntryFlow.collect { backStackEntry ->
             val currentRoute = backStackEntry.destination.route
             val destination = routeToDestination(currentRoute)
+            fabState.value = destination == MainDestinations.Home
             toolbarState.value = toolbarItems[destination]
                 ?: ToolbarItemData(
                     title = "Default",
@@ -86,36 +70,18 @@ fun MainNavGraph(
         }
     }
 
-    // whenever pager is swiped, update selectedDestination and navigate
-    LaunchedEffect(pagerState.currentPage) {
-        if (pagerState.currentPage != selectedDestination) {
-            selectedDestination = pagerState.currentPage
-            navController.navigate(tabs[selectedDestination].destination) {
-                popUpTo(navController.graph.startDestinationId)
-                launchSingleTop = true
-            }
-        }
-    }
-
-    fun onTabClick(index: Int) {
-        selectedDestination = index
-        coroutineScope.launch {
-            pagerState.animateScrollToPage(index)
-        }
-        navController.navigate(tabs[index].destination) {
-            popUpTo(navController.graph.startDestinationId)
-            launchSingleTop = true
-        }
-    }
-
 
     Scaffold(
         modifier = modifier,
         floatingActionButton = {
-            FloatingActionButton(onClick = {
-                navController.navigate(MainDestinations.CreateSurvey)
-            }) {
-                Icon(imageVector = Icons.Default.Add, contentDescription = null)
+            if (fabState.value) {
+                FloatingActionButton(
+                    onClick = {
+                        navController.navigate(MainDestinations.CreateSurvey)
+                    }
+                ) {
+                    Icon(imageVector = Icons.Default.Add, contentDescription = null)
+                }
             }
         },
         topBar = {
@@ -141,34 +107,12 @@ fun MainNavGraph(
         },
     ) { paddingValues ->
 
-        Column(modifier = Modifier.fillMaxSize()) {
-            PrimaryTabRow(
-                modifier = Modifier.padding(paddingValues),
-                selectedTabIndex = selectedDestination,
-                containerColor = Color.White
-            ) {
-                tabs.forEachIndexed { index, item ->
-                    Tab(
-                        text = { Text(text = stringResource(item.displayName)) },
-                        selected = selectedDestination == index,
-                        onClick = { onTabClick(index) }
-                    )
-                }
-            }
+        MainNavHost(
+            navController = navController,
+            paddingValues = paddingValues,
+            modifier = Modifier.fillMaxSize()
+        )
 
-            HorizontalPager(
-                state = pagerState,
-                modifier = Modifier
-                    .weight(1f)
-                    .fillMaxWidth(),
-            ) { page ->
-                MainNavHost(
-                    navController = navController,
-                    paddingValues = paddingValues,
-                    modifier = Modifier.fillMaxSize()
-                )
-            }
-        }
     }
 }
 
@@ -178,20 +122,31 @@ fun MainNavHost(
     modifier: Modifier = Modifier,
     paddingValues: PaddingValues,
     navController: NavHostController,
-){
+) {
     NavHost(
         modifier = Modifier,
         navController = navController,
-        startDestination = MainDestinations.SurveysList
+        startDestination = MainDestinations.Home
     ) {
-        composable<MainDestinations.SurveysList> {
-            SurveysListScreen(modifier = Modifier.padding(paddingValues))
+        composable<MainDestinations.Home> {
+            HomeScreen(
+                modifier = Modifier.padding(paddingValues)
+            )
         }
-        composable<MainDestinations.SurveyHistory> {
-            NotificationScreen(modifier = Modifier.padding(paddingValues))
+        composable<MainDestinations.Profile> {
+            ProfileScreen(
+                modifier = Modifier.padding(paddingValues)
+            )
         }
-        composable<MainDestinations.CreatedSurveys> {
-
+        composable<MainDestinations.Survey> {
+            SurveyViewScreen(
+                modifier = Modifier.padding(paddingValues)
+            )
+        }
+        composable<MainDestinations.CreateSurvey> {
+            CreateSurveyScreen(
+                modifier = Modifier.padding(paddingValues)
+            )
         }
     }
 }
@@ -238,9 +193,10 @@ fun Toolbar(
 
 fun routeToDestination(route: String?): MainDestinations? {
     return when (route) {
-        MainDestinations.SurveysList::class.qualifiedName -> MainDestinations.SurveysList
-        MainDestinations.SurveyHistory::class.qualifiedName -> MainDestinations.SurveyHistory
-        MainDestinations.Settings::class.qualifiedName -> MainDestinations.Settings
+        MainDestinations.Home::class.qualifiedName -> MainDestinations.Home
+        MainDestinations.Profile::class.qualifiedName -> MainDestinations.Profile
+        MainDestinations.CreateSurvey::class.qualifiedName -> MainDestinations.CreateSurvey
+        MainDestinations.Survey::class.qualifiedName -> MainDestinations.Survey
         else -> null
     }
 }
@@ -248,14 +204,13 @@ fun routeToDestination(route: String?): MainDestinations? {
 
 inline fun <reified T> handleLeadingIconClick(route: String?): T? {
     return when (route) {
-        MainDestinations.SurveysList::class.qualifiedName -> MainDestinations.Notifications as? T
+        MainDestinations.Home::class.qualifiedName -> MainDestinations.Profile as? T
         else -> null
     }
 }
 
 inline fun <reified T> handleTrailingIconClick(route: String?): T? {
     return when (route) {
-        MainDestinations.SurveysList::class.qualifiedName -> MainDestinations.Notifications as? T
         else -> null
     }
 }

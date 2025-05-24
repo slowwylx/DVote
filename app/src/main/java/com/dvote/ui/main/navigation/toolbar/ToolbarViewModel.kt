@@ -1,6 +1,7 @@
 package com.dvote.ui.main.navigation.toolbar
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Person
@@ -25,20 +26,25 @@ class ToolbarViewModel @Inject constructor(
 
     private fun initToolbarItems() {
         val toolbarItems = hashMapOf<MainDestinations, ToolbarItemData>()
-        toolbarItems[MainDestinations.SurveysList] = ToolbarItemData(
+        toolbarItems[MainDestinations.Home] = ToolbarItemData(
             title = "Polls",
             navigationIcon = Icons.Default.Person,
             actionIcon = null,
         )
-        toolbarItems[MainDestinations.Notifications] = ToolbarItemData(
-            title = "Notifications",
-            navigationIcon = null,
+        toolbarItems[MainDestinations.Profile] = ToolbarItemData(
+            title = "Profile",
+            navigationIcon = Icons.AutoMirrored.Default.ArrowBack,
             actionIcon = null,
         )
-        toolbarItems[MainDestinations.Notifications] = ToolbarItemData(
+        toolbarItems[MainDestinations.Survey] = ToolbarItemData(
             title = "Settings",
             navigationIcon = null,
             actionIcon = null,
+        )
+        toolbarItems[MainDestinations.CreateSurvey] = ToolbarItemData(
+            title = "Create New Survey",
+            navigationIcon = Icons.AutoMirrored.Default.ArrowBack,
+            actionIcon = Icons.Default.Notifications,
         )
         _toolbarItems.value = toolbarItems
     }

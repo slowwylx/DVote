@@ -15,7 +15,7 @@ class MainViewModel @Inject constructor(
     val uiState = service.isUserLoggedIn.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(),
-        initialValue = null,
+        initialValue = null
     )
 
 

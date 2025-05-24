@@ -43,10 +43,11 @@ class SignInViewModel @Inject constructor(
         }
     }
 
-    private fun handlerLoginResult(result: AuthRepository.AuthResult?) {
+    private suspend fun handlerLoginResult(result: AuthRepository.AuthResult?) {
         when (result) {
             is AuthRepository.AuthResult.Success -> {
                 _signInState.value = SignInState.SignedIn
+                authRepository.initUserData()
                 service.login()
             }
             is AuthRepository.AuthResult.Error -> {

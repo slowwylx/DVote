@@ -33,9 +33,9 @@ android {
     signingConfigs {
         register("release") {
             storeFile = file("dvote-keystore")
-            storePassword = "31MuO5XM:Z07"
+            storePassword = ""
             keyAlias = "key0"
-            keyPassword = "31MuO5XM:Z07"
+            keyPassword = ""
         }
     }
 
@@ -108,6 +108,8 @@ dependencies {
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.messaging)
     implementation(libs.firebase.storage)
+    implementation(libs.firebase.firestore)
+
 
     //google auth
     implementation(libs.androidx.credentials)
