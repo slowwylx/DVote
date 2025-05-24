@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">DVote</string>
+
+    <string name="surveys_list">Ongoing</string>
+    <string name="survey_history">Past</string>
+
 </resources>

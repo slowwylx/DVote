@@ -21,10 +21,7 @@ fun AuthNavGraph(
         startDestination = AuthDestinations.SignIn
     ) {
         composable<AuthDestinations.SignIn> {
-            SignInScreen(modifier = Modifier
-                .systemBarsPadding()
-                .navigationBarsPadding(),
-            )
+            SignInScreen(modifier = modifier)
         }
     }
 

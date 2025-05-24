@@ -3,6 +3,7 @@ package com.dvote.ui.main.navigation.toolbar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material.icons.filled.Person
 import androidx.lifecycle.ViewModel
 import com.dvote.ui.main.navigation.MainDestinations
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -25,9 +26,9 @@ class ToolbarViewModel @Inject constructor(
     private fun initToolbarItems() {
         val toolbarItems = hashMapOf<MainDestinations, ToolbarItemData>()
         toolbarItems[MainDestinations.SurveysList] = ToolbarItemData(
-            title = "Survey List",
-            navigationIcon = Icons.Default.Menu,
-            actionIcon = Icons.Default.Notifications,
+            title = "Polls",
+            navigationIcon = Icons.Default.Person,
+            actionIcon = null,
         )
         toolbarItems[MainDestinations.Notifications] = ToolbarItemData(
             title = "Notifications",

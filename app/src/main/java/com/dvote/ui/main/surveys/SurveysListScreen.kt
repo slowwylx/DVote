@@ -11,7 +11,7 @@ import androidx.compose.ui.graphics.Color
 @Composable
 fun SurveysListScreen(modifier: Modifier = Modifier) {
     Column(
-        modifier = modifier.fillMaxSize().background(Color(0xFFFCECD8))
+        modifier = Modifier.fillMaxSize().background(Color(0xFFFCECD8))
     ) {
         Text(text = "Surveys List Screen")
     }
