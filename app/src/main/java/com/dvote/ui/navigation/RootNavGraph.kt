@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -30,9 +31,7 @@ fun RootNavGraph(
     navController: NavHostController,
     mainViewModel: MainViewModel = hiltViewModel()
 ) {
-
-
-    val infiniteTransition = rememberInfiniteTransition(label = "")
+    val infiniteTransition = rememberInfiniteTransition()
 
     val color1 by infiniteTransition.animateColor(
         initialValue = Color(0xFFFCECD8),
@@ -40,7 +39,7 @@ fun RootNavGraph(
         animationSpec = infiniteRepeatable(
             animation = tween(durationMillis = 6000),
             repeatMode = RepeatMode.Reverse
-        ), label = ""
+        )
     )
 
     val color2 by infiniteTransition.animateColor(
@@ -49,7 +48,7 @@ fun RootNavGraph(
         animationSpec = infiniteRepeatable(
             animation = tween(durationMillis = 6000),
             repeatMode = RepeatMode.Reverse
-        ), label = ""
+        )
     )
 
     NavHost(
@@ -76,12 +75,15 @@ fun RootNavGraph(
         }
     }
 
-
-    LaunchedEffect(true) {
-        mainViewModel.uiState.collect{
-            when(it){
+    LaunchedEffect(mainViewModel.uiState) {
+        mainViewModel.uiState.collect { state ->
+            when (state) {
                 true -> {
-                    navController.navigate(RootDestinations.Main)
+                    navController.navigate(RootDestinations.Main){
+                        popUpTo(RootDestinations.Auth) {
+                            inclusive = true
+                        }
+                    }
                 }
                 false -> {
                     navController.navigate(RootDestinations.Auth)
@@ -92,6 +94,4 @@ fun RootNavGraph(
             }
         }
     }
-
-
 }

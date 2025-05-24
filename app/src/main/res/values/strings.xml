@@ -3,5 +3,7 @@
 
     <string name="surveys_list">Ongoing</string>
     <string name="survey_history">Past</string>
+    <string name="text_wellcome_to_dvote">Wellcome to DVote</string>
+    <string name="text_sign_in_to_continue">Sign in to continue</string>
 
 </resources>

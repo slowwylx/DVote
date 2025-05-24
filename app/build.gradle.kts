@@ -5,6 +5,9 @@ plugins {
     alias(libs.plugins.android.ksp)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.google.services)
+    alias(libs.plugins.crashlytics)
+    alias(libs.plugins.gradle.secret)
 }
 
 
@@ -15,21 +18,32 @@ val appVersionName = providers.gradleProperty("appVersionName").get()
 
 android {
     namespace = packageName
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = packageName
         minSdk = 26
-        targetSdk = 35
+        targetSdk = 36
         versionCode = appVersionCode
         versionName = appVersionName
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+        register("release") {
+            storeFile = file("dvote-keystore")
+            storePassword = "31MuO5XM:Z07"
+            keyAlias = "key0"
+            keyPassword = "31MuO5XM:Z07"
+        }
+    }
+
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
+            signingConfig = signingConfigs.getByName("release")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -38,8 +52,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     buildFeatures {
@@ -58,7 +72,7 @@ android {
     }
 
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8.toString()
+        jvmTarget = JavaVersion.VERSION_17.toString()
         freeCompilerArgs = freeCompilerArgs + listOf(
             "-opt-in=androidx.compose.material3.ExperimentalMaterial3Api",
             "-opt-in=androidx.compose.material.ExperimentalMaterialApi",
@@ -67,6 +81,12 @@ android {
             "-opt-in=com.google.accompanist.permissions.ExperimentalPermissionsApi"
         )
     }
+}
+
+secrets {
+    propertiesFileName = "secret.properties"
+    defaultPropertiesFileName = "local.defaults.properties"
+    ignoreList.add("sdk.*")
 }
 
 dependencies {
@@ -80,6 +100,19 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    //firebase
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.auth)
+    implementation(libs.firebase.crashlytics)
+    implementation(libs.firebase.analytics)
+    implementation(libs.firebase.messaging)
+    implementation(libs.firebase.storage)
+
+    //google auth
+    implementation(libs.androidx.credentials)
+    implementation(libs.androidx.credentials.play.services.auth)
+    implementation(libs.googleid)
 
     //compose
     implementation(composeBom)

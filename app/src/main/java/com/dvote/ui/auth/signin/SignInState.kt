@@ -6,5 +6,5 @@ sealed class SignInState {
     data object SignedIn : SignInState()
     data object NeedSignUp : SignInState()
     data object LoggedOut : SignInState()
-    data object Error : SignInState()
+    data class Error(val errorMessage: String? = null) : SignInState()
 }

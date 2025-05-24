@@ -6,4 +6,5 @@ plugins {
     alias(libs.plugins.android.hilt) apply false
     alias(libs.plugins.android.ksp) apply false
     alias(libs.plugins.compose.compiler) apply false
+    alias(libs.plugins.google.services) apply false
 }
