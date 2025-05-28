@@ -45,7 +45,8 @@ import kotlinx.coroutines.launch
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
-    viewModel: HomeViewModel = hiltViewModel()
+    viewModel: HomeViewModel = hiltViewModel(),
+    onSurveyClick: (String) -> Unit = {}
 ) {
 
     val surveyList = viewModel.surveyListFlow.collectAsState().value
@@ -91,7 +92,7 @@ fun HomeScreen(
                 TabDestinations.SURVEYS_LIST -> SurveysListScreen(
                     surveyList = surveyList,
                     onSurveyClick = { surveyId ->
-
+                        onSurveyClick.invoke(surveyId)
                     }
                 )
                 TabDestinations.SURVEY_HISTORY -> SurveyHistoryScreen()
@@ -107,7 +108,6 @@ fun SurveyListItem(
     surveyItemUi: SurveyItemUi
 ) {
 
-    val iconTint = if (!surveyItemUi.isProtected) Color.Red else Color(0xFF80F58B)
 
     Column(
         modifier = Modifier
@@ -126,14 +126,7 @@ fun SurveyListItem(
             verticalAlignment = CenterVertically
         ) {
             Text(text = surveyItemUi.title, textAlign = TextAlign.Start)
-            if (surveyItemUi.isProtected) {
-                Icon(
-                    modifier = Modifier.size(20.dp),
-                    imageVector = Icons.Default.Lock,
-                    tint = iconTint,
-                    contentDescription = null,
-                )
-            }
+
         }
         Spacer(modifier = Modifier.height(8.dp))
         Text(text = surveyItemUi.description, textAlign = TextAlign.Start)

@@ -15,7 +15,6 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class GoogleAuthUseCase @Inject constructor(
-    @ApplicationContext private val context: Context,
     private val provideGoogleSignInRequest: GetCredentialRequest,
     private val provideCredentialManager: CredentialManager,
 ) {
@@ -45,10 +44,8 @@ class GoogleAuthUseCase @Inject constructor(
             is CustomCredential -> {
                 if (credential.type == GoogleIdTokenCredential.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL) {
                     try {
-                        val googleIdTokenCredential =
-                            GoogleIdTokenCredential.createFrom(credential.data)
-                        val credentialResult =
-                            GoogleAuthProvider.getCredential(googleIdTokenCredential.idToken, null)
+                        val googleIdTokenCredential = GoogleIdTokenCredential.createFrom(credential.data)
+                        val credentialResult = GoogleAuthProvider.getCredential(googleIdTokenCredential.idToken, null)
                         AuthResult.Success(credentialResult)
                     } catch (e: GoogleIdTokenParsingException) {
                         e.printStackTrace()

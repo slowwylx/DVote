@@ -2,8 +2,6 @@ package com.dvote.ui.main.navigation.toolbar
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Person
 import androidx.lifecycle.ViewModel
 import com.dvote.ui.main.navigation.MainDestinations
@@ -36,7 +34,9 @@ class ToolbarViewModel @Inject constructor(
             navigationIcon = Icons.AutoMirrored.Default.ArrowBack,
             actionIcon = null,
         )
-        toolbarItems[MainDestinations.Survey] = ToolbarItemData(
+        toolbarItems[
+            MainDestinations.Survey("")
+        ] = ToolbarItemData(
             title = "Settings",
             navigationIcon = null,
             actionIcon = null,
@@ -44,7 +44,7 @@ class ToolbarViewModel @Inject constructor(
         toolbarItems[MainDestinations.CreateSurvey] = ToolbarItemData(
             title = "Create New Survey",
             navigationIcon = Icons.AutoMirrored.Default.ArrowBack,
-            actionIcon = Icons.Default.Notifications,
+            actionIcon = null,
         )
         _toolbarItems.value = toolbarItems
     }

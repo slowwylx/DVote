@@ -7,7 +7,7 @@ sealed interface MainDestinations {
     data object Home : MainDestinations
 
     @Serializable
-    data object Survey : MainDestinations
+    data class Survey(val surveyId: String) : MainDestinations
 
     @Serializable
     data object CreateSurvey : MainDestinations

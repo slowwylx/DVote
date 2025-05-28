@@ -3,6 +3,7 @@ package com.dvote.ui.auth.signin
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dvote.data.repository.AuthRepository
+import com.dvote.data.repository.ProfileRepository
 import com.dvote.domain.GoogleAuthUseCase
 import com.dvote.ui.SessionService
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,6 +18,7 @@ import javax.inject.Inject
 class SignInViewModel @Inject constructor(
     private val service: SessionService,
     private val authRepository: AuthRepository,
+    private val profileRepository: ProfileRepository,
     private val googleAuth: GoogleAuthUseCase
 ) : ViewModel() {
 
@@ -47,7 +49,7 @@ class SignInViewModel @Inject constructor(
         when (result) {
             is AuthRepository.AuthResult.Success -> {
                 _signInState.value = SignInState.SignedIn
-                authRepository.initUserData()
+                profileRepository.initUserData()
                 service.login()
             }
             is AuthRepository.AuthResult.Error -> {

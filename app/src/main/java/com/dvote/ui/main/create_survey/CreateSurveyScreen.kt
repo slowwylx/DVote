@@ -137,15 +137,15 @@ fun CreateSurveyScreen(
             }
 
 
-            candidates.forEachIndexed { index, candidate ->
+            candidates.forEachIndexed { index, candidateMap ->
                 CandidateInputField(
-                    value = candidate,
+                    value = candidateMap["name"].orEmpty(),
                     onValueChange = { new ->
                         viewModel.updateCandidate(index, new)
                     },
                     onRemove = {
                         viewModel.removeCandidate(index)
-                    },
+                    }
                 )
             }
 

@@ -1,9 +1,9 @@
 package com.dvote.ui.main.navigation
 
+import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -18,25 +18,25 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
 import com.dvote.ui.main.create_survey.CreateSurveyScreen
 import com.dvote.ui.main.home.HomeScreen
+import com.dvote.ui.main.navigation.MainDestinations.Survey
 import com.dvote.ui.main.navigation.toolbar.ToolbarItemData
 import com.dvote.ui.main.navigation.toolbar.ToolbarViewModel
 import com.dvote.ui.main.profile.ProfileScreen
-import com.dvote.ui.main.survey.SurveyViewScreen
+import com.dvote.ui.main.vote.SurveyViewScreen
+import com.dvote.ui.main.vote.VoteSurveyViewModel
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -131,16 +131,25 @@ fun MainNavHost(
         composable<MainDestinations.Home> {
             HomeScreen(
                 modifier = Modifier.padding(paddingValues)
-            )
+            ){
+                navController.navigate(MainDestinations.Survey(it))
+            }
         }
+
         composable<MainDestinations.Profile> {
             ProfileScreen(
                 modifier = Modifier.padding(paddingValues)
             )
         }
-        composable<MainDestinations.Survey> {
+
+        composable<MainDestinations.Survey> { entry ->
+            val surveyId: Survey = entry.toRoute()
+            Log.i("CHEKC_ID", "MainNavHost: ${surveyId} and ${entry}")
+            val viewModel = hiltViewModel<VoteSurveyViewModel>(entry)
+            viewModel.setSurveyId(surveyId.surveyId)
             SurveyViewScreen(
-                modifier = Modifier.padding(paddingValues)
+                modifier = Modifier.padding(paddingValues),
+                viewModel = viewModel,
             )
         }
         composable<MainDestinations.CreateSurvey> {
@@ -196,7 +205,7 @@ fun routeToDestination(route: String?): MainDestinations? {
         MainDestinations.Home::class.qualifiedName -> MainDestinations.Home
         MainDestinations.Profile::class.qualifiedName -> MainDestinations.Profile
         MainDestinations.CreateSurvey::class.qualifiedName -> MainDestinations.CreateSurvey
-        MainDestinations.Survey::class.qualifiedName -> MainDestinations.Survey
+        MainDestinations.Survey("")::class.qualifiedName -> MainDestinations.Survey("")
         else -> null
     }
 }

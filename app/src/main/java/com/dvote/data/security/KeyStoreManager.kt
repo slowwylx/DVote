@@ -6,6 +6,7 @@ import com.dvote.domain.security.KeyStoreService
 import java.security.KeyPair
 import java.security.KeyPairGenerator
 import java.security.KeyStore
+import java.security.Signature
 import java.security.spec.ECGenParameterSpec
 
 object KeyStoreManager : KeyStoreService {
@@ -40,5 +41,13 @@ object KeyStoreManager : KeyStoreService {
 
         val entry = keyStore.getEntry(KEY_ALIAS, null) as KeyStore.PrivateKeyEntry
         return KeyPair(entry.certificate.publicKey, entry.privateKey)
+    }
+
+    override fun signData(data: ByteArray): ByteArray {
+        val privateKey = generateKeyPairIfNeeded().private
+        val sig = Signature.getInstance("SHA256withECDSA")
+        sig.initSign(privateKey)
+        sig.update(data)
+        return sig.sign()
     }
 }
