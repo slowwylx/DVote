@@ -1,6 +1,5 @@
 package com.dvote.ui.main.navigation
 
-import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,6 +11,7 @@ import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
@@ -23,12 +23,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
+import com.dvote.R
 import com.dvote.ui.main.create_survey.CreateSurveyScreen
 import com.dvote.ui.main.home.HomeScreen
 import com.dvote.ui.main.navigation.MainDestinations.Survey
@@ -57,6 +59,8 @@ fun MainNavGraph(
         mutableStateOf(false)
     }
 
+    val voteTxt = stringResource(R.string.text_vote)
+
     LaunchedEffect(navController) {
         navController.currentBackStackEntryFlow.collect { backStackEntry ->
             val currentRoute = backStackEntry.destination.route
@@ -64,7 +68,7 @@ fun MainNavGraph(
             fabState.value = destination == MainDestinations.Home
             toolbarState.value = toolbarItems[destination]
                 ?: ToolbarItemData(
-                    title = "Default",
+                    title = voteTxt,
                     navigationIcon = Icons.AutoMirrored.Default.ArrowBack
                 )
         }
@@ -144,7 +148,6 @@ fun MainNavHost(
 
         composable<MainDestinations.Survey> { entry ->
             val surveyId: Survey = entry.toRoute()
-            Log.i("CHEKC_ID", "MainNavHost: ${surveyId} and ${entry}")
             val viewModel = hiltViewModel<VoteSurveyViewModel>(entry)
             viewModel.setSurveyId(surveyId.surveyId)
             SurveyViewScreen(
@@ -173,7 +176,7 @@ fun Toolbar(
 
     CenterAlignedTopAppBar(
         title = {
-            Text(title)
+            Text(text = title, style = MaterialTheme.typography.headlineMedium)
         }, navigationIcon = {
             IconButton(
                 onClick = onNavigationClick

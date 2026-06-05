@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="surveys_list">Поточні опитування</string>
+    <string name="survey_history">Минулі опитування</string>
+    <string name="text_wellcome_to_dvote">Ласкаво просимо до DVote</string>
+    <string name="text_sign_in_to_continue">Увійдіть, щоб продовжити</string>
+    <string name="text_vote">Голосувати</string>
+
+    <string name="vote_submitted_title">Голос надіслано</string>
+    <string name="vote_submitted_message">Ваш голос успішно надіслано. Дякуємо!</string>
+    <string name="already_voted_title">Ви вже голосували</string>
+    <string name="already_voted_message">Ви вже проголосували і не можете голосувати повторно.</string>
+    <string name="ok">Гаразд</string>
+    <string name="survey_info">Від %1$s • створено %2$s</string>
+    <string name="text_select_one_option">Виберіть один варіант:</string>
+    <string name="text_select_one_or_more_options">Виберіть один або декілька варіантів:</string>
+    <string name="text_submit_vote">Надіслати голос</string>
+
+
+</resources>

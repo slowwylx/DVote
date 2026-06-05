@@ -34,11 +34,9 @@ class ToolbarViewModel @Inject constructor(
             navigationIcon = Icons.AutoMirrored.Default.ArrowBack,
             actionIcon = null,
         )
-        toolbarItems[
-            MainDestinations.Survey("")
-        ] = ToolbarItemData(
-            title = "Settings",
-            navigationIcon = null,
+        toolbarItems[MainDestinations.Survey("")] = ToolbarItemData(
+            title = "Vote",
+            navigationIcon = Icons.AutoMirrored.Default.ArrowBack,
             actionIcon = null,
         )
         toolbarItems[MainDestinations.CreateSurvey] = ToolbarItemData(

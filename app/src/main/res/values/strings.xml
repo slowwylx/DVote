@@ -5,5 +5,17 @@
     <string name="survey_history">Past</string>
     <string name="text_wellcome_to_dvote">Wellcome to DVote</string>
     <string name="text_sign_in_to_continue">Sign in to continue</string>
+    <string name="text_vote">Vote</string>
+
+    <string name="vote_submitted_title">Vote Submitted</string>
+    <string name="vote_submitted_message">Your vote was successfully submitted. Thank you!</string>
+    <string name="already_voted_title">Already Voted</string>
+    <string name="already_voted_message">You have already voted and cannot vote again.</string>
+    <string name="ok">OK</string>
+    <string name="survey_info">By %1$s • created at %2$s</string>
+    <string name="text_select_one_option">Select one option:</string>
+    <string name="text_select_one_or_more_options">Select one or more options:</string>
+    <string name="text_submit_vote">Submit Vote</string>
+
 
 </resources>

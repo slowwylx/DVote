@@ -1,7 +1,6 @@
 package com.dvote.ui.main.home
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -11,15 +10,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Lock
-import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.PrimaryTabRow
 import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
@@ -75,7 +71,12 @@ fun HomeScreen(
         ) {
             tabs.forEachIndexed { index, item ->
                 Tab(
-                    text = { Text(text = stringResource(item.displayName)) },
+                    text = {
+                        Text(
+                            text = stringResource(item.displayName),
+                            style = MaterialTheme.typography.titleLarge
+                        )
+                    },
                     selected = selectedDestination == index,
                     onClick = { onTabClick(index) }
                 )
@@ -108,7 +109,6 @@ fun SurveyListItem(
     surveyItemUi: SurveyItemUi
 ) {
 
-
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -125,18 +125,34 @@ fun SurveyListItem(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = CenterVertically
         ) {
-            Text(text = surveyItemUi.title, textAlign = TextAlign.Start)
-
+            Text(
+                text = surveyItemUi.title,
+                style = MaterialTheme.typography.titleLarge,
+                textAlign = TextAlign.Start
+            )
         }
         Spacer(modifier = Modifier.height(8.dp))
-        Text(text = surveyItemUi.description, textAlign = TextAlign.Start)
+        Text(
+            text = surveyItemUi.description,
+            style = MaterialTheme.typography.bodyMedium,
+            textAlign = TextAlign.Start
+        )
+        Spacer(modifier = Modifier.height(8.dp))
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = CenterVertically
         ) {
-            Text(text = surveyItemUi.createdBy, textAlign = TextAlign.Start)
-            Text(text = surveyItemUi.expirationDate, textAlign = TextAlign.End)
+            Text(
+                text = surveyItemUi.creatorName,
+                style = MaterialTheme.typography.labelSmall,
+                textAlign = TextAlign.Start
+            )
+            Text(
+                text = surveyItemUi.expirationDate,
+                style = MaterialTheme.typography.labelSmall,
+                textAlign = TextAlign.End
+            )
         }
     }
 }
@@ -171,9 +187,10 @@ fun SurveysListScreen(
                     }
                 }
             }
-        }else{
+        } else {
             Text(
                 text = "No surveys available",
+                style = MaterialTheme.typography.bodyLarge,
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(16.dp),
@@ -190,6 +207,9 @@ fun SurveyHistoryScreen(modifier: Modifier = Modifier) {
             .fillMaxSize()
             .background(Color(0xFFFFF2E0))
     ) {
-        Text(text = "Survey History Screen")
+        Text(
+            text = "Survey History Screen",
+            style = MaterialTheme.typography.titleMedium,
+        )
     }
 }

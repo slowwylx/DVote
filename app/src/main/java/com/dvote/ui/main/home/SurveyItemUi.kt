@@ -4,7 +4,7 @@ data class SurveyItemUi(
     val id: String = "",
     val title: String = "",
     val description: String = "",
-    val createdBy: String = "",
+    val creatorName: String = "",
     val createdAt: String = "",
     val expirationDate: String = "",
     val isActive: Boolean = true,

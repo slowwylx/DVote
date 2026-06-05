@@ -1,6 +1,5 @@
 package com.dvote.ui.main.vote
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -15,17 +14,22 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.dvote.R
 import com.dvote.data.model.SurveyDataItem
 
 @Composable
@@ -61,6 +65,34 @@ fun SurveyViewScreen(
             )
         }
     }
+
+//    if (false) {
+//        AlertDialog(
+//            onDismissRequest = {  },
+//            title = { Text(stringResource(R.string.vote_submitted_title)) },
+//            text = { Text(stringResource(R.string.vote_submitted_message)) },
+//            confirmButton = {
+//                TextButton(onClick = { }) {
+//                    Text(stringResource(R.string.ok))
+//                }
+//            }
+//        )
+//    }
+//
+//    if (true) {
+//        AlertDialog(
+//            onDismissRequest = {  },
+//            title = { Text(stringResource(R.string.already_voted_title)) },
+//            text = { Text(stringResource(R.string.already_voted_message)) },
+//            confirmButton = {
+//                TextButton(onClick = {  }) {
+//                    Text(stringResource(R.string.ok))
+//                }
+//            }
+//        )
+//    }
+
+
 }
 
 @Composable
@@ -79,15 +111,27 @@ fun SurveyContent(
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        Text(survey.title)
-        Text("By ${survey.createdBy} • created at ${survey.createdAt}")
+        Text(
+            survey.title,
+            style = MaterialTheme.typography.headlineLarge
+        )
+        Text(
+            stringResource(R.string.survey_info, survey.creatorName, survey.createdAt),
+            style = MaterialTheme.typography.bodySmall
+        )
         Spacer(Modifier.height(8.dp))
-        Text(survey.description)
+        Text(
+            survey.description,
+            style = MaterialTheme.typography.bodyMedium
+        )
 
         Spacer(Modifier.height(16.dp))
         Text(
-            if (survey.multipleChoice) "Select one or more options:"
-            else "Select one option:",
+            if (survey.multipleChoice)
+                stringResource(R.string.text_select_one_or_more_options)
+            else
+                stringResource(R.string.text_select_one_option),
+            style = MaterialTheme.typography.titleMedium
         )
 
         survey.listOfCandidates.forEach { option ->
@@ -110,7 +154,10 @@ fun SurveyContent(
                     )
                 }
                 Spacer(Modifier.width(8.dp))
-                Text(option.name)
+                Text(
+                    option.name,
+                    style = MaterialTheme.typography.bodyLarge
+                )
             }
         }
 
@@ -121,10 +168,17 @@ fun SurveyContent(
                 enabled = selectedOptions.isNotEmpty(),
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text("Submit Vote")
+                Text(
+                    stringResource(R.string.text_submit_vote),
+                    style = MaterialTheme.typography.labelLarge
+                )
             }
         } else {
-            Text("This survey is closed", color = Color.Gray)
+            Text(
+                "This survey is closed",
+                color = Color.Gray,
+                style = MaterialTheme.typography.bodySmall
+            )
         }
     }
 }

@@ -30,7 +30,7 @@ class HomeViewModel @Inject constructor(
                     id = survey.id,
                     title = survey.title,
                     description = survey.description,
-                    createdBy = survey.createdBy,
+                    creatorName = survey.creatorName,
                     createdAt = survey.createdAt,
                     expirationDate = survey.expirationDate,
                     isActive = survey.isActive,
