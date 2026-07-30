@@ -1,17 +1,62 @@
-*.iml
-.gradle
-/local.properties
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
+# Operating system and IDE state
 .DS_Store
-/build
-/captures
-.externalNativeBuild
-.cxx
-local.properties
+*.iml
 /.idea/
+
+# Local agent/workspace guidance
+/AGENTS.md
+/.agents/
+/.codex/
+
+# Internal implementation and review documentation
+/docs/*.md
+/docs/**/*.md
+
+# Gradle and Android build output
+/.gradle/
+/.kotlin/
+**/build/
+/captures/
+.externalNativeBuild/
+.cxx/
+*.apk
+*.aab
+*.apks
+*.hprof
+
+# Local Android/Firebase configuration and signing material
+/local.properties
 /secret.properties
+**/google-services.json
+/.firebaserc
+!/.firebaserc.example
+app/*keystore*
+**/*service-account*.json
+**/*service_account*.json
+**/*firebase-adminsdk*.json
+**/credentials*.json
+*.jks
+*.keystore
+*.p12
+*.pfx
+*.pem
+*.key
+*.pk8
+*.mobileprovision
+
+# Local environment files
+.env
+.env.*
+!.env.example
+
+# Node dependencies and generated JavaScript
+functions/lib/
+functions/lib-test/
+functions/node_modules/
+firestore-tests/node_modules/
+
+# Emulator and tool logs
+/.firebase/
+/firebase-export-*/
+/firestore-debug.log
+*.log
