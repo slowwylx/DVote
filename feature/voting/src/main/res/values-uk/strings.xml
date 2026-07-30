@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="create_survey_heading">Створити захищене опитування</string>
+    <string name="create_survey_title_label">Назва</string>
+    <string name="create_survey_description_label">Опис</string>
+    <string name="create_survey_multiple_choices">Дозволити кілька варіантів</string>
+    <string name="create_survey_expiry">Автоматично закриється через 30 днів</string>
+    <string name="create_survey_options_heading">Варіанти</string>
+    <string name="create_survey_option_label">Варіант %1$d</string>
+    <string name="create_survey_remove_option">Видалити варіант %1$d</string>
+    <string name="create_survey_minimum_options">Потрібно щонайменше два варіанти.</string>
+    <string name="create_survey_add_option">Додати варіант</string>
+    <string name="create_survey_option_limit_reached">Досягнуто максимуму з 10 варіантів.</string>
+    <string name="create_survey_submitting">Створення\u2026</string>
+    <string name="create_survey_submit">Створити опитування</string>
+
+    <string name="home_empty_title">Немає активних опитувань</string>
+    <string name="home_empty_body">Створіть перше перевірюване опитування за допомогою кнопки.</string>
+    <string name="home_creator">Автор: %1$s</string>
+    <string name="home_closes">Закриється %1$s</string>
+    <string name="home_results_after_close">Результати після закриття</string>
+    <string name="home_retry_loading_more">Повторити завантаження</string>
+
+    <string name="profile_heading">Профіль</string>
+    <string name="profile_anonymous_voter">Анонімний виборець</string>
+    <plurals name="profile_created_surveys">
+        <item quantity="one">Створено %1$d опитування</item>
+        <item quantity="few">Створено %1$d опитування</item>
+        <item quantity="many">Створено %1$d опитувань</item>
+        <item quantity="other">Створено %1$d опитування</item>
+    </plurals>
+    <plurals name="profile_participated_surveys">
+        <item quantity="one">Участь у %1$d опитуванні</item>
+        <item quantity="few">Участь у %1$d опитуваннях</item>
+        <item quantity="many">Участь у %1$d опитуваннях</item>
+        <item quantity="other">Участь у %1$d опитування</item>
+    </plurals>
+    <string name="profile_sign_out">Вийти</string>
+
+    <string name="vote_survey_not_found">Опитування не знайдено.</string>
+    <string name="vote_select_multiple">Виберіть один або кілька варіантів</string>
+    <string name="vote_select_single">Виберіть один варіант</string>
+    <string name="vote_closed_explanation">Це опитування закрито. Голосування більше недоступне.</string>
+    <string name="vote_already_accepted_explanation">Ваш голос у цьому опитуванні вже прийнято.</string>
+    <string name="vote_status_checking_explanation">Перевіряємо, чи ви вже голосували\u2026</string>
+    <string name="vote_submitting">Надсилання підписаного голосу\u2026</string>
+    <string name="vote_survey_closed">Опитування закрито</string>
+    <string name="vote_already_accepted">Голос уже прийнято</string>
+    <string name="vote_status_checking">Перевірка стану голосу\u2026</string>
+    <string name="vote_submit">Надіслати підписаний голос</string>
+    <string name="vote_results_hidden">Результати приховано до закриття опитування.</string>
+    <string name="vote_result_loading">Завантаження остаточного результату\u2026</string>
+    <string name="vote_result_heading">Остаточний результат</string>
+    <plurals name="vote_total_count">
+        <item quantity="one">%1$d голос</item>
+        <item quantity="few">%1$d голоси</item>
+        <item quantity="many">%1$d голосів</item>
+        <item quantity="other">%1$d голосу</item>
+    </plurals>
+    <string name="vote_option_count">%1$s: %2$d</string>
+    <string name="vote_result_unavailable">Остаточний результат недоступний.</string>
+    <string name="vote_receipt_title">Голос прийнято</string>
+    <string name="vote_receipt_details">Квитанція\n%1$s\n\nЗобов’язання\n%2$s\n\nЕкспортуйте пакет, щоб перевірити цей підписаний голос офлайн.</string>
+    <string name="vote_export_bundle">Експортувати пакет</string>
+    <string name="vote_receipt_dismiss">Гаразд</string>
+    <string name="vote_export_subject">Пакет перевірки DVote</string>
+    <string name="vote_export_chooser">Експортувати пакет перевірки</string>
+
+    <string name="error_service_unavailable">Сервіс тимчасово недоступний. Спробуйте ще раз.</string>
+    <string name="error_invalid_service_data">Сервіс повернув дані, які DVote не може безпечно використати.</string>
+    <string name="error_request_rejected">Сервіс не зміг виконати цей запит.</string>
+    <string name="error_create_survey">Не вдалося створити опитування. Спробуйте ще раз.</string>
+    <string name="error_create_title_length">Назва має містити від 3 до 80 символів.</string>
+    <string name="error_create_description_length">Опис має містити від 10 до 500 символів.</string>
+    <string name="error_create_option_count">Додайте від 2 до 10 унікальних варіантів.</string>
+    <string name="error_create_option_length">Кожен варіант має містити від 1 до 80 символів.</string>
+    <string name="error_create_expiration">Дата закриття має бути в майбутньому.</string>
+    <string name="error_load_surveys">Не вдалося завантажити опитування.</string>
+    <string name="error_load_profile">Не вдалося завантажити профіль.</string>
+    <string name="error_sign_out">Не вдалося вийти. Спробуйте ще раз.</string>
+    <string name="error_load_survey">Не вдалося завантажити опитування.</string>
+    <string name="error_load_final_result">Не вдалося завантажити остаточний результат.</string>
+    <string name="error_check_vote_status">Не вдалося перевірити, чи ви вже голосували.</string>
+    <string name="error_prepare_vote">Не вдалося підготувати підписаний голос.</string>
+    <string name="error_submit_vote">Не вдалося надіслати підписаний голос. Спробуйте ще раз.</string>
+</resources>
