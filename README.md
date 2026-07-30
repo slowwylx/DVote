@@ -4,7 +4,14 @@ DVote is a portfolio Android project for verifiable Firebase-backed voting. It d
 
 This is **not blockchain decentralization**. Firebase and Cloud Functions are the trusted authority; verifiability comes from signed client payloads, private raw votes, immutable public receipts, and transactionally updated aggregate results that become public only after closing.
 
-![DVote screens](docs/screenshots/dvote-screens.svg)
+![DVote survey discovery, creation, and voting flows](docs/screenshots/portfolio/dvote-showcase.png)
+
+<details>
+<summary>Authentication and private profile</summary>
+
+![DVote authentication and account flows](docs/screenshots/portfolio/dvote-account-showcase.png)
+
+</details>
 
 ## Highlights
 
