@@ -1,0 +1,20 @@
+[
+  {
+    "name": "sorts multiple option identifiers",
+    "surveyId": "survey-1",
+    "userId": "user-1",
+    "keyId": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "optionIds": ["option-b", "option-a"],
+    "signedAt": 123,
+    "canonicalPayload": "survey=survey-1|user=user-1|key=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa|options=option-a,option-b|signedAt=123"
+  },
+  {
+    "name": "preserves a single canonical option",
+    "surveyId": "spring_ballot-2026",
+    "userId": "google-user-42",
+    "keyId": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+    "optionIds": ["native_flowers"],
+    "signedAt": 1900000000000,
+    "canonicalPayload": "survey=spring_ballot-2026|user=google-user-42|key=0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef|options=native_flowers|signedAt=1900000000000"
+  }
+]
