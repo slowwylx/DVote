@@ -1,0 +1,80 @@
+<resources>
+    <string name="create_survey_heading">Create secure survey</string>
+    <string name="create_survey_title_label">Title</string>
+    <string name="create_survey_description_label">Description</string>
+    <string name="create_survey_multiple_choices">Allow multiple choices</string>
+    <string name="create_survey_expiry">Closes automatically in 30 days</string>
+    <string name="create_survey_options_heading">Options</string>
+    <string name="create_survey_option_label">Option %1$d</string>
+    <string name="create_survey_remove_option_symbol" translatable="false">X</string>
+    <string name="create_survey_remove_option">Remove option %1$d</string>
+    <string name="create_survey_minimum_options">At least two options are required.</string>
+    <string name="create_survey_add_option">Add option</string>
+    <string name="create_survey_option_limit_reached">Maximum of 10 options reached.</string>
+    <string name="create_survey_submitting">Creating\u2026</string>
+    <string name="create_survey_submit">Create survey</string>
+
+    <string name="home_empty_title">No active surveys</string>
+    <string name="home_empty_body">Create the first verifiable survey from the action button.</string>
+    <string name="home_creator">By %1$s</string>
+    <string name="home_closes">Closes %1$s</string>
+    <string name="home_results_after_close">Results after close</string>
+    <string name="home_retry_loading_more">Retry loading more</string>
+
+    <string name="profile_heading">Profile</string>
+    <string name="profile_anonymous_voter">Anonymous voter</string>
+    <plurals name="profile_created_surveys">
+        <item quantity="one">Created survey: %1$d</item>
+        <item quantity="other">Created surveys: %1$d</item>
+    </plurals>
+    <plurals name="profile_participated_surveys">
+        <item quantity="one">Participated survey: %1$d</item>
+        <item quantity="other">Participated surveys: %1$d</item>
+    </plurals>
+    <string name="profile_sign_out">Sign out</string>
+
+    <string name="vote_survey_not_found">Survey was not found.</string>
+    <string name="vote_select_multiple">Select one or more options</string>
+    <string name="vote_select_single">Select one option</string>
+    <string name="vote_closed_explanation">This survey is closed. Voting is no longer available.</string>
+    <string name="vote_already_accepted_explanation">Your vote has already been accepted for this survey.</string>
+    <string name="vote_status_checking_explanation">Checking whether you already voted\u2026</string>
+    <string name="vote_submitting">Submitting signed vote\u2026</string>
+    <string name="vote_survey_closed">Survey closed</string>
+    <string name="vote_already_accepted">Vote already accepted</string>
+    <string name="vote_status_checking">Checking vote status\u2026</string>
+    <string name="vote_submit">Submit signed vote</string>
+    <string name="vote_results_hidden">Results are hidden until this survey closes.</string>
+    <string name="vote_result_loading">Loading final result\u2026</string>
+    <string name="vote_result_heading">Final result</string>
+    <plurals name="vote_total_count">
+        <item quantity="one">%1$d vote</item>
+        <item quantity="other">%1$d votes</item>
+    </plurals>
+    <string name="vote_option_count">%1$s: %2$d</string>
+    <string name="vote_result_unavailable">Final result is unavailable.</string>
+    <string name="vote_receipt_title">Vote accepted</string>
+    <string name="vote_receipt_details">Receipt\n%1$s\n\nCommitment\n%2$s\n\nExport the bundle to verify this signed vote offline.</string>
+    <string name="vote_export_bundle">Export bundle</string>
+    <string name="vote_receipt_dismiss">OK</string>
+    <string name="vote_export_subject">DVote verification bundle</string>
+    <string name="vote_export_chooser">Export verification bundle</string>
+
+    <string name="error_service_unavailable">The service is temporarily unavailable. Try again.</string>
+    <string name="error_invalid_service_data">The service returned data that DVote cannot safely use.</string>
+    <string name="error_request_rejected">The service could not complete this request.</string>
+    <string name="error_create_survey">Could not create the survey. Please try again.</string>
+    <string name="error_create_title_length">Title must be 3\u201380 characters.</string>
+    <string name="error_create_description_length">Description must be 10\u2013500 characters.</string>
+    <string name="error_create_option_count">Add between 2 and 10 unique options.</string>
+    <string name="error_create_option_length">Each option must be 1\u201380 characters.</string>
+    <string name="error_create_expiration">The closing date must be in the future.</string>
+    <string name="error_load_surveys">Could not load surveys.</string>
+    <string name="error_load_profile">Could not load the profile.</string>
+    <string name="error_sign_out">Could not sign out. Please try again.</string>
+    <string name="error_load_survey">Could not load the survey.</string>
+    <string name="error_load_final_result">Could not load the final result.</string>
+    <string name="error_check_vote_status">Could not verify whether you already voted.</string>
+    <string name="error_prepare_vote">Could not prepare the signed vote.</string>
+    <string name="error_submit_vote">Could not submit the signed vote. Please try again.</string>
+</resources>

@@ -1,0 +1,4 @@
+<resources>
+    <string name="designsystem_loading">Loading</string>
+    <string name="designsystem_retry">Retry</string>
+</resources>

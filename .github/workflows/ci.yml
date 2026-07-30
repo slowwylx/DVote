@@ -1,0 +1,205 @@
+name: CI
+
+permissions:
+  contents: read
+
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  repository:
+    name: Repository and dependencies
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+
+      - name: Set up Node
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: |
+            functions/package-lock.json
+            firestore-tests/package-lock.json
+
+      - name: Validate Gradle wrapper
+        uses: gradle/actions/wrapper-validation@3f131e8634966bd73d06cc69884922b02e6faf92 # v6.2.0
+
+      - name: Verify repository hygiene
+        run: ./scripts/verify-repository.sh
+
+      - name: Install locked dependency graphs
+        run: |
+          npm --prefix functions ci
+          npm --prefix firestore-tests ci
+
+      - name: Audit production and test dependencies
+        run: |
+          npm --prefix functions audit --omit=dev --audit-level=moderate
+          npm --prefix functions audit --audit-level=high
+          npm --prefix firestore-tests audit --audit-level=high
+
+  android-debug:
+    name: Android debug, lint, and tests
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+
+      - name: Set up JDK
+        uses: actions/setup-java@03ad4de0992f5dab5e18fcb136590ce7c4a0ac95 # v5.6.0
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@3f131e8634966bd73d06cc69884922b02e6faf92 # v6.2.0
+        with:
+          cache-provider: basic
+
+      - name: Prepare non-secret Firebase config
+        run: cp app/google-services.json.example app/google-services.json
+
+      - name: Build, lint, and test
+        run: ./gradlew lint testDebugUnitTest assembleDebug --no-daemon
+
+  android-unsigned-release:
+    name: Android unsigned minified release
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    env:
+      DVOTE_RELEASE_STORE_FILE: ""
+      DVOTE_RELEASE_STORE_PASSWORD: ""
+      DVOTE_RELEASE_KEY_ALIAS: ""
+      DVOTE_RELEASE_KEY_PASSWORD: ""
+      DVOTE_RELEASE_CERT_SHA256: ""
+      DVOTE_UPLOAD_CRASHLYTICS_MAPPING: "false"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+
+      - name: Set up JDK
+        uses: actions/setup-java@03ad4de0992f5dab5e18fcb136590ce7c4a0ac95 # v5.6.0
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@3f131e8634966bd73d06cc69884922b02e6faf92 # v6.2.0
+        with:
+          cache-provider: basic
+
+      - name: Prepare non-secret Firebase config
+        run: cp app/google-services.json.example app/google-services.json
+
+      - name: Run release mapping tests and build
+        run: |
+          ./gradlew \
+            :data:firebase:testReleaseUnitTest \
+            :feature:voting:testReleaseUnitTest \
+            :app:assembleUnsignedRelease \
+            --no-daemon
+
+      - name: Prove the release artifact is unsigned
+        run: |
+          apk="app/build/outputs/apk/unsignedRelease/app-unsignedRelease-unsigned.apk"
+          apksigner="$(find "$ANDROID_SDK_ROOT/build-tools" -type f -name apksigner | sort -V | tail -1)"
+          test -f "$apk"
+          test -x "$apksigner"
+          if "$apksigner" verify "$apk"; then
+            echo "Unsigned release unexpectedly contains a valid APK signature." >&2
+            exit 1
+          fi
+
+  functions:
+    name: Functions contracts and transactions
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+
+      - name: Set up Node
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: |
+            functions/package-lock.json
+            firestore-tests/package-lock.json
+
+      - name: Set up emulator JDK
+        uses: actions/setup-java@03ad4de0992f5dab5e18fcb136590ce7c4a0ac95 # v5.6.0
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - name: Install locked dependencies
+        run: |
+          npm --prefix functions ci
+          npm --prefix firestore-tests ci
+
+      - name: Build Functions
+        run: npm --prefix functions run build
+
+      - name: Run callable and transaction emulator matrix
+        run: |
+          npm --prefix firestore-tests exec -- firebase emulators:exec \
+            --project dvote-test \
+            --only firestore,functions \
+            "FUNCTIONS_EMULATOR_HOST=127.0.0.1:5001 npm --prefix functions test"
+
+  firestore-rules:
+    name: Firestore rules matrix
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+
+      - name: Set up Node
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: firestore-tests/package-lock.json
+
+      - name: Set up emulator JDK
+        uses: actions/setup-java@03ad4de0992f5dab5e18fcb136590ce7c4a0ac95 # v5.6.0
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - name: Install locked dependencies
+        run: npm --prefix firestore-tests ci
+
+      - name: Run Firestore rules emulator matrix
+        run: |
+          npm --prefix firestore-tests exec -- firebase emulators:exec \
+            --project dvote-test \
+            --only firestore \
+            "npm --prefix firestore-tests test"

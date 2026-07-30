@@ -1,0 +1,122 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return signedIn() && request.auth.uid == userId;
+    }
+
+    function validDisplayName(value) {
+      return value is string
+        && value.size() >= 1
+        && value.size() <= 80;
+    }
+
+    function validPublicKey(value) {
+      return value is string
+        && value.size() >= 80
+        && value.size() <= 256;
+    }
+
+    function validProfile(data, userId) {
+      return data.keys().hasAll(['id', 'displayName'])
+        && data.keys().hasOnly([
+          'id',
+          'displayName',
+          'publicKey',
+          'createdSurveyIds',
+          'votedSurveyIds',
+        ])
+        && data.id == userId
+        && validDisplayName(data.displayName)
+        && (
+          !data.keys().hasAny(['publicKey'])
+          || validPublicKey(data.publicKey)
+        )
+        && (
+          !data.keys().hasAny(['createdSurveyIds'])
+          || (
+            data.createdSurveyIds is list
+            && data.createdSurveyIds.size() <= 2000
+          )
+        )
+        && (
+          !data.keys().hasAny(['votedSurveyIds'])
+          || (
+            data.votedSurveyIds is list
+            && data.votedSurveyIds.size() <= 2000
+          )
+        );
+    }
+
+    function usesAfterCloseResultContract(data) {
+      return data.resultsVisibility == 'after_close';
+    }
+
+    function surveyResultsArePublic(surveyId) {
+      let survey = get(/databases/$(database)/documents/surveys/$(surveyId));
+      return usesAfterCloseResultContract(survey.data)
+        && (
+          survey.data.isActive == false
+          || (
+            survey.data.expiresAt is int
+            && survey.data.expiresAt <= request.time.toMillis()
+          )
+        );
+    }
+
+    match /users/{userId} {
+      allow read: if isOwner(userId);
+      allow create: if isOwner(userId)
+        && request.resource.data.keys().hasOnly(['id', 'displayName', 'publicKey'])
+        && validProfile(request.resource.data, userId);
+      allow update: if isOwner(userId)
+        && validProfile(request.resource.data, userId)
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['displayName']);
+      allow delete: if false;
+
+      match /keys/{keyId} {
+        allow get, list: if isOwner(userId);
+        allow create, update, delete: if false;
+      }
+
+      match /devices/{deviceId} {
+        allow get, list: if isOwner(userId);
+        allow create, update, delete: if false;
+      }
+
+      match /operations/{operationId} {
+        allow read, write: if false;
+      }
+
+      match /limits/{limitId} {
+        allow read, write: if false;
+      }
+    }
+
+    match /surveys/{surveyId} {
+      allow get, list: if usesAfterCloseResultContract(resource.data);
+      allow create, update, delete: if false;
+
+      match /votes/{userId} {
+        allow read: if isOwner(userId);
+        allow create, update, delete: if false;
+      }
+
+      match /results/{resultId} {
+        allow get: if resultId == 'final' && surveyResultsArePublic(surveyId);
+        allow list: if false;
+        allow create, update, delete: if false;
+      }
+
+      match /receipts/{receiptId} {
+        allow get: if true;
+        allow list: if false;
+        allow create, update, delete: if false;
+      }
+    }
+  }
+}

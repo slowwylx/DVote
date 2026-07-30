@@ -23,4 +23,9 @@ dependencyResolutionManagement {
 
 rootProject.name = "DVote"
 include(":app")
- 
+include(":core:model")
+include(":core:designsystem")
+include(":domain")
+include(":data:firebase")
+include(":feature:auth")
+include(":feature:voting")

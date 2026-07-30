@@ -1,0 +1,15 @@
+<resources>
+    <string name="auth_welcome">Welcome to DVote</string>
+    <string name="auth_sign_in_prompt">Sign in to continue</string>
+    <string name="auth_google_sign_in">Sign in with Google</string>
+    <string name="auth_signing_in">Signing in</string>
+    <string name="auth_repair_prompt">Finish setting up your account</string>
+    <string name="auth_repair_action">Try again</string>
+    <string name="auth_sign_out_action">Sign out</string>
+    <string name="auth_error_service_unavailable">The service is temporarily unavailable. Try again.</string>
+    <string name="auth_error_invalid_service_data">The service returned data that DVote cannot safely use.</string>
+    <string name="auth_error_request_rejected">The service could not complete this request.</string>
+    <string name="auth_error_sign_in">Sign-in failed. Please try again.</string>
+    <string name="auth_error_account_setup">Could not finish account setup. Try again or sign out.</string>
+    <string name="auth_error_sign_out">Could not sign out. Please try again.</string>
+</resources>
