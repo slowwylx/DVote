@@ -1,21 +1,11 @@
 <resources>
-    <string name="app_name">DVote</string>
-
-    <string name="surveys_list">Ongoing</string>
-    <string name="survey_history">Past</string>
-    <string name="text_wellcome_to_dvote">Wellcome to DVote</string>
-    <string name="text_sign_in_to_continue">Sign in to continue</string>
-    <string name="text_vote">Vote</string>
-
-    <string name="vote_submitted_title">Vote Submitted</string>
-    <string name="vote_submitted_message">Your vote was successfully submitted. Thank you!</string>
-    <string name="already_voted_title">Already Voted</string>
-    <string name="already_voted_message">You have already voted and cannot vote again.</string>
-    <string name="ok">OK</string>
-    <string name="survey_info">By %1$s • created at %2$s</string>
-    <string name="text_select_one_option">Select one option:</string>
-    <string name="text_select_one_or_more_options">Select one or more options:</string>
-    <string name="text_submit_vote">Submit Vote</string>
-
-
+    <string name="app_name" translatable="false">DVote</string>
+    <string name="navigation_back">Back</string>
+    <string name="navigation_profile">Profile</string>
+    <string name="navigation_surveys_title">Surveys</string>
+    <string name="navigation_profile_title">Profile</string>
+    <string name="navigation_create_survey_title">Create Survey</string>
+    <string name="navigation_vote_title">Vote</string>
+    <string name="navigation_create_survey_symbol" translatable="false">+</string>
+    <string name="navigation_create_survey_action">Create survey</string>
 </resources>
