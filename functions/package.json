@@ -12,19 +12,19 @@
     "test": "mocha \"lib-test/test/**/*.test.js\""
   },
   "dependencies": {
-    "@google-cloud/firestore": "8.7.0",
+    "@google-cloud/firestore": "8.7.1",
     "firebase-admin": "14.2.0",
-    "firebase-functions": "7.3.0"
+    "firebase-functions": "7.3.2"
   },
   "devDependencies": {
     "@types/mocha": "^10.0.10",
     "@types/node": "^22.0.0",
-    "mocha": "11.7.6",
+    "mocha": "12.0.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.7.2"
   },
   "overrides": {
-    "brace-expansion": "5.0.8",
+    "brace-expansion": "5.0.9",
     "serialize-javascript": "7.0.7",
     "uuid": "11.1.1",
     "google-gax": {
