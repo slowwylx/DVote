@@ -12,7 +12,7 @@
     "test": "mocha \"lib-test/test/**/*.test.js\""
   },
   "dependencies": {
-    "@google-cloud/firestore": "8.7.1",
+    "@google-cloud/firestore": "9.0.1",
     "firebase-admin": "14.2.0",
     "firebase-functions": "7.3.2"
   },
