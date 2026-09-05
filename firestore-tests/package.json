@@ -7,12 +7,21 @@
   "devDependencies": {
     "@firebase/rules-unit-testing": "^4.0.1",
     "firebase": "^11.0.2",
-    "firebase-tools": "15.24.0",
-    "mocha": "11.7.6"
+    "firebase-tools": "15.29.0",
+    "mocha": "12.0.0"
   },
   "overrides": {
-    "brace-expansion": "5.0.8",
+    "fast-uri": "3.1.6",
+    "hono": "4.12.34",
+    "ip-address": "10.4.0",
+    "qs": "6.16.0",
     "serialize-javascript": "7.0.7",
-    "uuid": "11.1.1"
+    "uuid": "11.1.1",
+    "firebase-tools": {
+      "undici": "6.28.0"
+    },
+    "node-gyp": {
+      "undici": "8.9.0"
+    }
   }
 }

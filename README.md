@@ -97,7 +97,7 @@ sequenceDiagram
 
 ## Setup
 
-1. Install JDK 17 for Android builds, JDK 21 for the Firestore emulator, Node.js 22, Android SDK Platform 36.1, and Android SDK Build-Tools 36.0.0 or newer.
+1. Install JDK 17 for Android builds, JDK 21 for the Firestore emulator, Node.js 22.12 or newer within the Node 22 release line, Android SDK Platform 36.1, and Android SDK Build-Tools 36.0.0 or newer.
 2. Create a Firebase project with Authentication, Firestore, Functions, App Check, and Crashlytics enabled.
 3. Register Android package `com.dvote`.
 4. Copy Firebase config:
@@ -129,7 +129,7 @@ Kotlin `2.4.0` is newer, but Hilt `2.59.2` cannot read Kotlin metadata `2.4` yet
 
 AndroidX Core `1.19.0` requires compileSdk 37, so the project deliberately keeps Core `1.18.0` until the SDK 37 migration is handled as a separate toolchain upgrade.
 
-Backend validation uses Node.js `22`, JDK `21`, and the repository-pinned Firebase CLI. Android builds use JDK `17`.
+Backend validation uses Node.js `22.12+`, JDK `21`, and the repository-pinned Firebase CLI. Android builds use JDK `17`.
 
 `secret.properties`, `local.properties`, the real `.firebaserc`, real
 `app/google-services.json`, keystores, and Node/Gradle build outputs are
